@@ -11,7 +11,7 @@
 
 ## 🌐 Demo ao vivo
 
-**[→ DevLucasAls.github.io/linksentinel](https://DevLucasAls.github.io/linksentinel)**
+**[→ DevLucasAls.github.io/linksentinel](https://devlucasals.github.io/LinkSentinel/)** 
 
 ---
 
@@ -147,9 +147,9 @@ Esta é uma análise **estática e local** — sem acesso a bancos de dados de a
 
 ---
 
-## 🔗 Outros projetos NucleoCyber
+## 🔗 Em breve
 
-- **[KeySentinel](https://github.com/DevLucasAls/nucleocyber-password-analyzer)** — Analisador de força de senhas com verificação HIBP
+- **[KeySentinel] — Analisador de força de senhas com verificação HIBP
 
 ---
 
