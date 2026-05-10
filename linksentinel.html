@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>LinkSentinel — NucleoCyber</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  --bg:        #ffffff;
+  --bg-soft:   #f8f9fc;
+  --bg-subtle: #f1f3f8;
+  --border:    #e4e7ef;
+  --border2:   #cdd2e0;
+
+  --ink:       #0f1623;
+  --text:      #4b5670;
+  --muted:     #8e98b0;
+  --subtle-txt:#bcc4d6;
+
+  --blue:      #2563eb;
+  --blue-soft: #eff4ff;
+  --blue-dim:  #93b4fa;
+
+  --red:       #dc2626;
+  --red-soft:  #fff1f1;
+  --green:     #16a34a;
+  --green-soft:#f0fdf4;
+  --amber:     #d97706;
+  --amber-soft:#fffbeb;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: light; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #ffffff;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+
+.nav-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; gap: 16px;
+}
+
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo {
+  width: 32px; height: 32px;
+  background: var(--blue); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-logo svg { width: 18px; height: 18px; }
+.nav-brand-name {
+  font-size: 16px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.3px;
+}
+.nav-brand-name span { color: var(--blue); }
+
+.nav-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted);
+  border: 1px solid var(--border); padding: 3px 8px;
+  border-radius: 4px; letter-spacing: 0.5px;
+}
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-status {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--green); font-weight: 500;
+}
+.status-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 2px rgba(22,163,74,0.2)} 50%{box-shadow:0 0 0 4px rgba(22,163,74,0.1)} }
+
+/* ═══════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════ */
+.hero {
+  background: linear-gradient(180deg, #f8f9fc 0%, #ffffff 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 24px 72px;
+  text-align: center;
+}
+
+.hero-inner { max-width: 680px; margin: 0 auto; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--blue-soft); color: var(--blue);
+  border: 1px solid var(--blue-dim);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
+  margin-bottom: 24px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--blue); animation: pulse 2s ease-in-out infinite;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 6vw, 54px);
+  font-weight: 800; color: var(--ink);
+  letter-spacing: -1.5px; line-height: 1.1;
+  margin-bottom: 18px;
+}
+.hero h1 span { color: var(--blue); }
+
+.hero-sub {
+  font-size: 17px; color: var(--text);
+  max-width: 500px; margin: 0 auto 36px;
+  line-height: 1.7; letter-spacing: 0;
+}
+
+/* Input grande no hero */
+.hero-input-wrap {
+  max-width: 560px; margin: 0 auto 16px;
+  display: flex;
+  border: 1.5px solid var(--border2);
+  border-radius: 12px;
+  background: white;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.hero-input-wrap:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.1), var(--shadow-md);
+}
+#urlInput {
+  flex: 1; border: none; background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; padding: 14px 18px;
+  color: var(--ink); outline: none; min-width: 0;
+}
+#urlInput::placeholder { color: var(--muted); }
+
+#scanBtn {
+  background: var(--blue); border: none; border-radius: 0 10px 10px 0;
+  color: white; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 700;
+  padding: 0 24px; cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.2px;
+}
+#scanBtn:hover   { background: #1d4ed8; }
+#scanBtn:active  { transform: scale(0.98); }
+#scanBtn:disabled { background: var(--muted); cursor: not-allowed; }
+
+.hero-hint {
+  font-size: 12px; color: var(--muted);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.hero-hint::before { content: '🔒'; font-size: 11px; }
+
+/* Barra de progresso */
+.progress-wrap {
+  max-width: 560px; margin: 12px auto 0; display: none;
+}
+.progress-info {
+  display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted); margin-bottom: 6px;
+}
+.progress-track {
+  height: 3px; background: var(--border); border-radius: 99px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; width: 0%; border-radius: 99px;
+  background: linear-gradient(90deg, var(--blue), #60a5fa);
+  transition: width 0.25s ease;
+}
+
+/* ═══════════════════════════════════════
+   RESULTADO
+═══════════════════════════════════════ */
+.results-section {
+  max-width: 760px; margin: 0 auto;
+  padding: 32px 24px 0; display: none;
+}
+
+/* Veredito card */
+.verdict-card {
+  border-radius: 16px; border: 1.5px solid var(--border);
+  background: white; overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 16px;
+  animation: popIn 0.35s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes popIn { from{opacity:0;transform:translateY(12px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+.verdict-top-bar {
+  height: 4px; width: 100%;
+  transition: background 0.4s;
+}
+
+.verdict-body { padding: 24px 28px; }
+
+.verdict-header {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 16px;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+
+.verdict-left { flex: 1; min-width: 0; }
+
+.verdict-level-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+}
+.verdict-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 100px; padding: 4px 12px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.verdict-title {
+  font-size: clamp(18px, 4vw, 26px); font-weight: 800;
+  color: var(--ink); letter-spacing: -0.5px; line-height: 1.1;
+}
+.verdict-url {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  word-break: break-all; line-height: 1.5;
+  margin-top: 6px; letter-spacing: 0;
+}
+
+/* Score pill */
+.verdict-score {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 2px solid var(--border); flex-shrink: 0;
+  transition: border-color 0.4s;
+}
+.score-num {
+  font-size: 26px; font-weight: 800;
+  color: var(--ink); line-height: 1;
+  letter-spacing: -1px; transition: color 0.4s;
+}
+.score-label {
+  font-size: 8px; color: var(--muted);
+  font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; margin-top: 1px;
+}
+
+.verdict-divider { height: 1px; background: var(--border); margin: 16px 0; }
+.verdict-summary {
+  font-size: 14px; color: var(--text);
+  line-height: 1.75; letter-spacing: 0;
+}
+
+/* Stats strip */
+.stats-strip {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border-radius: 12px; border: 1px solid var(--border);
+  background: var(--bg-soft); margin-bottom: 16px;
+  overflow: hidden; box-shadow: var(--shadow-sm);
+  animation: popIn 0.35s cubic-bezier(.4,0,.2,1) both;
+  animation-delay: 0.05s;
+}
+.stat-cell {
+  padding: 16px 14px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-n {
+  font-size: 28px; font-weight: 800;
+  color: var(--ink); line-height: 1;
+  margin-bottom: 4px; letter-spacing: -1px;
+  transition: color 0.4s;
+}
+.stat-l {
+  font-size: 10px; color: var(--muted);
+  font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* Checks */
+.checks-card {
+  border-radius: 16px; border: 1px solid var(--border);
+  background: white; overflow: hidden;
+  box-shadow: var(--shadow-sm); margin-bottom: 16px;
+  animation: popIn 0.35s cubic-bezier(.4,0,.2,1) both;
+  animation-delay: 0.1s;
+}
+.checks-header {
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px; font-weight: 700;
+  color: var(--ink); letter-spacing: -0.2px;
+  display: flex; align-items: center; gap: 8px;
+}
+.checks-header::before {
+  content: ''; width: 4px; height: 16px;
+  background: var(--blue); border-radius: 2px;
+}
+.checks-list { padding: 8px 0; }
+
+.check-row {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 13px 24px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.check-row:last-child { border-bottom: none; }
+.check-row:hover { background: var(--bg-soft); }
+
+.check-icon {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; margin-top: 1px;
+}
+.check-icon.pass { background: var(--green-soft); color: var(--green); }
+.check-icon.fail { background: var(--red-soft);   color: var(--red);   }
+.check-icon.warn { background: var(--amber-soft);  color: var(--amber); }
+
+.check-content { flex: 1; min-width: 0; }
+.check-name {
+  font-size: 13px; font-weight: 600; color: var(--ink);
+  margin-bottom: 2px; letter-spacing: -0.1px;
+}
+.check-desc {
+  font-size: 13px; color: var(--text); line-height: 1.6; letter-spacing: 0;
+}
+.check-detail {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; margin-top: 4px; line-height: 1.5; letter-spacing: 0;
+  padding: 4px 8px; border-radius: 4px; display: inline-block;
+}
+.check-detail.bad  { background: var(--red-soft);   color: var(--red);   }
+.check-detail.warn { background: var(--amber-soft);  color: var(--amber); }
+.check-detail.ok   { background: var(--green-soft);  color: var(--green); }
+
+/* Histórico */
+.history-card {
+  border-radius: 16px; border: 1px solid var(--border);
+  background: white; overflow: hidden;
+  box-shadow: var(--shadow-sm); margin-bottom: 16px;
+  animation: popIn 0.35s cubic-bezier(.4,0,.2,1) both;
+  animation-delay: 0.15s;
+}
+.history-header {
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px; font-weight: 700;
+  color: var(--ink); display: flex; align-items: center; gap: 8px;
+}
+.history-header::before {
+  content: ''; width: 4px; height: 16px;
+  background: var(--muted); border-radius: 2px;
+}
+
+.hist-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 24px; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background 0.15s;
+}
+.hist-row:last-child { border-bottom: none; }
+.hist-row:hover { background: var(--bg-soft); }
+
+.hist-indicator { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.hist-url {
+  flex: 1; font-size: 13px; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0;
+}
+.hist-chip {
+  font-size: 11px; font-weight: 700; padding: 2px 8px;
+  border-radius: 100px; flex-shrink: 0; letter-spacing: 0.3px;
+}
+.hist-time {
+  font-size: 11px; color: var(--muted); flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.hist-rm {
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 14px; padding: 3px 5px;
+  border-radius: 4px; transition: all 0.15s; flex-shrink: 0; line-height: 1;
+}
+.hist-rm:hover { background: var(--red-soft); color: var(--red); }
+
+/* ═══════════════════════════════════════
+   STEPS SECTION — estilo askaichat
+═══════════════════════════════════════ */
+.steps-section {
+  max-width: 1080px; margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.section-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg-subtle); color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: clamp(26px, 5vw, 40px); font-weight: 800;
+  color: var(--ink); letter-spacing: -1px;
+  line-height: 1.15; margin-bottom: 12px;
+}
+.section-title span { color: var(--blue); }
+
+.section-sub {
+  font-size: 16px; color: var(--text);
+  max-width: 500px; line-height: 1.7; letter-spacing: 0;
+  margin-bottom: 56px;
+}
+
+/* Steps com número + conteúdo */
+.steps-list { display: flex; flex-direction: column; gap: 64px; }
+
+.step {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 56px; align-items: center;
+}
+.step.reverse { direction: rtl; }
+.step.reverse > * { direction: ltr; }
+
+.step-text { }
+
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--blue-soft); color: var(--blue);
+  font-size: 14px; font-weight: 800; margin-bottom: 16px;
+  border: 1px solid var(--blue-dim);
+}
+
+.step-title {
+  font-size: 22px; font-weight: 800; color: var(--ink);
+  letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 12px;
+}
+
+.step-desc {
+  font-size: 15px; color: var(--text);
+  line-height: 1.75; letter-spacing: 0; margin-bottom: 20px;
+}
+
+.step-bullets { display: flex; flex-direction: column; gap: 8px; }
+.step-bullet {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; color: var(--text); line-height: 1.5;
+}
+.step-bullet-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--blue); flex-shrink: 0; margin-top: 6px;
+}
+
+/* Mockup visual para cada step */
+.step-visual {
+  background: var(--bg-soft); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+  box-shadow: var(--shadow-md);
+}
+
+.mock-input-row {
+  display: flex; gap: 8px; margin-bottom: 16px;
+}
+.mock-input {
+  flex: 1; background: white; border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--muted);
+}
+.mock-btn {
+  background: var(--blue); color: white;
+  border: none; border-radius: 8px; padding: 10px 16px;
+  font-size: 12px; font-weight: 700; white-space: nowrap;
+}
+
+.mock-checks { display: flex; flex-direction: column; gap: 8px; }
+.mock-check {
+  display: flex; align-items: center; gap: 10px;
+  background: white; border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px;
+}
+.mock-check-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.mock-check-text { font-size: 12px; color: var(--text); flex: 1; }
+.mock-check-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 7px;
+  border-radius: 100px; letter-spacing: 0.3px;
+}
+
+.mock-verdict {
+  background: white; border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px; margin-top: 12px;
+}
+.mock-verdict-bar { height: 3px; border-radius: 2px; margin-bottom: 12px; }
+.mock-verdict-title { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+.mock-verdict-desc  { font-size: 12px; color: var(--muted); }
+
+/* ═══════════════════════════════════════
+   FEATURES GRID — estilo askaichat
+═══════════════════════════════════════ */
+.features-section {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 24px;
+}
+
+.features-inner { max-width: 1080px; margin: 0 auto; }
+.features-inner .section-title,
+.features-inner .section-badge,
+.features-inner .section-sub { text-align: center; }
+.features-inner .section-sub { max-width: 480px; margin: 0 auto 48px; }
+
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+
+.feature-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+.feature-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  border-color: var(--blue-dim);
+}
+
+.feature-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--blue-soft); border: 1px solid var(--blue-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 14px;
+}
+
+.feature-title {
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  margin-bottom: 8px; letter-spacing: -0.2px;
+}
+.feature-desc {
+  font-size: 13px; color: var(--text); line-height: 1.65; letter-spacing: 0;
+}
+
+/* ═══════════════════════════════════════
+   CTA SECTION
+═══════════════════════════════════════ */
+.cta-section {
+  padding: 80px 24px; text-align: center;
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg-soft) 100%);
+}
+.cta-inner { max-width: 560px; margin: 0 auto; }
+
+.cta-title {
+  font-size: clamp(26px, 5vw, 40px); font-weight: 800;
+  color: var(--ink); letter-spacing: -1px;
+  line-height: 1.1; margin-bottom: 14px;
+}
+.cta-title span { color: var(--blue); }
+
+.cta-sub {
+  font-size: 16px; color: var(--text);
+  line-height: 1.7; margin-bottom: 32px;
+}
+
+.cta-input-wrap {
+  display: flex; gap: 0;
+  border: 1.5px solid var(--border2); border-radius: 12px;
+  background: white; box-shadow: var(--shadow-md);
+  overflow: hidden; max-width: 480px; margin: 0 auto;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cta-input-wrap:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.1), var(--shadow-md);
+}
+.cta-input-wrap input {
+  flex: 1; border: none; background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; padding: 14px 18px;
+  color: var(--ink); outline: none; min-width: 0;
+}
+.cta-input-wrap input::placeholder { color: var(--muted); }
+.cta-btn {
+  background: var(--blue); border: none; border-radius: 0 10px 10px 0;
+  color: white; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 700;
+  padding: 0 24px; cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s;
+}
+.cta-btn:hover { background: #1d4ed8; }
+
+/* ═══════════════════════════════════════
+   COMO FUNCIONA
+═══════════════════════════════════════ */
+.how-section {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--border);
+  padding: 80px 24px;
+}
+.how-inner { max-width: 1080px; margin: 0 auto; }
+.how-inner .section-title, .how-inner .section-badge { text-align: center; }
+
+.how-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+  margin-top: 48px;
+}
+
+.how-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.how-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.how-num {
+  font-size: 11px; font-weight: 700; color: var(--blue);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.how-num::before {
+  content: ''; width: 20px; height: 1px; background: var(--blue-dim);
+}
+
+.how-card-title {
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  margin-bottom: 10px; line-height: 1.3;
+}
+.how-card-body {
+  font-size: 13px; color: var(--text); line-height: 1.8; letter-spacing: 0;
+}
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  color: var(--ink); padding: 1px 5px; border-radius: 3px; font-size: 11px;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--ink); padding: 32px 24px;
+  text-align: center;
+}
+.foot-inner { max-width: 1080px; margin: 0 auto; }
+.foot-brand {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-bottom: 8px;
+}
+.foot-logo {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+}
+.foot-name {
+  font-size: 15px; font-weight: 700; color: white; letter-spacing: -0.2px;
+}
+.foot-name span { color: var(--blue-dim); }
+.foot-copy {
+  font-size: 12px; color: rgba(255,255,255,0.35);
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+}
+
+/* ═══════════════════════════════════════
+   ANIMAÇÕES
+═══════════════════════════════════════ */
+@keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp   { from{opacity:0;transform:translateY(10px)}  to{opacity:1;transform:translateY(0)} }
+
+/* ═══════════════════════════════════════
+   RESPONSIVO
+═══════════════════════════════════════ */
+@media(max-width:768px){
+  .step           { grid-template-columns: 1fr; gap: 24px; }
+  .step.reverse   { direction: ltr; }
+  .features-grid  { grid-template-columns: 1fr; }
+  .how-grid       { grid-template-columns: 1fr; }
+  .stats-strip    { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width:480px){
+  .hero-input-wrap { flex-direction: column; border-radius: 12px; }
+  #scanBtn        { border-radius: 0 0 10px 10px; padding: 14px; }
+  .checks-header, .check-row { padding-left: 16px; padding-right: 16px; }
+  .verdict-body   { padding: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">
+      <div class="nav-logo">
+        <svg viewBox="0 0 18 20" fill="none">
+          <path d="M9 1L17 4.5V10.5C17 14.5 13.5 18 9 19C4.5 18 1 14.5 1 10.5V4.5L9 1Z"
+                fill="none" stroke="white" stroke-width="1.5"/>
+          <circle cx="9" cy="9" r="2.5" stroke="white" stroke-width="1.3"/>
+          <line x1="11.5" y1="9" x2="15" y2="9" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="13.5" y1="9" x2="13.5" y2="11" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="nav-brand-name">Link<span>Sentinel</span></div>
+    </a>
+    <div class="nav-right">
+      <div class="nav-badge">by NucleoCyber</div>
+      <div class="nav-status">
+        <div class="status-dot"></div>
+        Online
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      URL Threat Analyzer
+    </div>
+    <h1>Analise qualquer link<br><span>antes de clicar</span></h1>
+    <p class="hero-sub">
+      Detectamos phishing, domínios suspeitos, encurtadores e imitações de marcas
+      em tempo real — sem sair desta página.
+    </p>
+    <div class="hero-input-wrap">
+      <input type="text" id="urlInput"
+        placeholder="Cole qualquer URL aqui... Ex: https://paypa1-secure.tk/login"
+        autocomplete="off" spellcheck="false"/>
+      <button id="scanBtn" onclick="scanURL()">Analisar</button>
+    </div>
+    <p class="hero-hint">Análise local — sua URL nunca é armazenada ou enviada a terceiros</p>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-info">
+        <span id="progressText">Inicializando...</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<div class="results-section" id="resultsSection">
+
+  <!-- Stats -->
+  <div class="stats-strip" id="statsStrip">
+    <div class="stat-cell"><div class="stat-n" id="sScore">—</div><div class="stat-l">Score de risco</div></div>
+    <div class="stat-cell"><div class="stat-n" id="sLen">—</div><div class="stat-l">Comprimento</div></div>
+    <div class="stat-cell"><div class="stat-n" id="sSub">—</div><div class="stat-l">Subdomínios</div></div>
+    <div class="stat-cell"><div class="stat-n" id="sParams">—</div><div class="stat-l">Parâmetros</div></div>
+  </div>
+
+  <!-- Veredito -->
+  <div class="verdict-card" id="verdictCard">
+    <div class="verdict-top-bar" id="verdictBar"></div>
+    <div class="verdict-body">
+      <div class="verdict-header">
+        <div class="verdict-left">
+          <div class="verdict-level-row">
+            <div class="verdict-chip" id="verdictChip"></div>
+          </div>
+          <div class="verdict-title" id="verdictTitle">—</div>
+          <div class="verdict-url" id="verdictUrl"></div>
+        </div>
+        <div class="verdict-score" id="verdictScoreWrap">
+          <div class="score-num" id="scoreNum">—</div>
+          <div class="score-label">Score</div>
+        </div>
+      </div>
+      <div class="verdict-divider"></div>
+      <div class="verdict-summary" id="verdictSummary"></div>
+    </div>
+  </div>
+
+  <!-- Checks -->
+  <div class="checks-card" id="checksCard">
+    <div class="checks-header">Análise detalhada</div>
+    <div class="checks-list" id="checksList"></div>
+  </div>
+
+  <!-- Histórico -->
+  <div class="history-card" id="historyCard">
+    <div class="history-header" id="histTitle">Scans recentes</div>
+    <div id="histList"></div>
+  </div>
+
+</div>
+
+<!-- STEPS SECTION -->
+<section class="steps-section">
+  <div class="section-badge">Como usar</div>
+  <h2 class="section-title">Simples, rápido e <span>seguro</span></h2>
+  <p class="section-sub">Três passos para saber se um link é seguro antes de acessar.</p>
+
+  <div class="steps-list">
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-text">
+        <div class="step-num">1</div>
+        <div class="step-title">Cole a URL suspeita</div>
+        <div class="step-desc">
+          Basta copiar qualquer link que recebeu por e-mail, mensagem ou redes sociais
+          e colar no campo de análise. Funciona com qualquer tipo de URL pública.
+        </div>
+        <div class="step-bullets">
+          <div class="step-bullet"><div class="step-bullet-dot"></div>Links de e-mails suspeitos</div>
+          <div class="step-bullet"><div class="step-bullet-dot"></div>URLs encurtadas como bit.ly</div>
+          <div class="step-bullet"><div class="step-bullet-dot"></div>Qualquer link antes de clicar</div>
+        </div>
+      </div>
+      <div class="step-visual">
+        <div class="mock-input-row">
+          <div class="mock-input">https://paypa1-secure.verify-account.tk…</div>
+          <div class="mock-btn">Analisar</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center">Analisando URL...</div>
+        <div style="height:3px;background:var(--border);border-radius:99px;margin-top:8px">
+          <div style="width:65%;height:100%;background:var(--blue);border-radius:99px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step reverse">
+      <div class="step-text">
+        <div class="step-num">2</div>
+        <div class="step-title">Veja a análise detalhada</div>
+        <div class="step-desc">
+          A ferramenta verifica 8 critérios de segurança simultaneamente — protocolo HTTPS,
+          palavras de phishing, estrutura do domínio, TLD suspeito e muito mais.
+        </div>
+        <div class="step-bullets">
+          <div class="step-bullet"><div class="step-bullet-dot"></div>8 verificações independentes</div>
+          <div class="step-bullet"><div class="step-bullet-dot"></div>Score de risco de 0 a 100</div>
+          <div class="step-bullet"><div class="step-bullet-dot"></div>Explicação clara de cada alerta</div>
+        </div>
+      </div>
+      <div class="step-visual">
+        <div class="mock-checks">
+          <div class="mock-check">
+            <div class="mock-check-dot" style="background:var(--red)"></div>
+            <div class="mock-check-text">Palavras de phishing detectadas</div>
+            <div class="mock-check-badge" style="background:var(--red-soft);color:var(--red)">FAIL</div>
+          </div>
+          <div class="mock-check">
+            <div class="mock-check-dot" style="background:var(--amber)"></div>
+            <div class="mock-check-text">TLD suspeito (.tk)</div>
+            <div class="mock-check-badge" style="background:var(--amber-soft);color:var(--amber)">WARN</div>
+          </div>
+          <div class="mock-check">
+            <div class="mock-check-dot" style="background:var(--green)"></div>
+            <div class="mock-check-text">Protocolo HTTPS</div>
+            <div class="mock-check-badge" style="background:var(--green-soft);color:var(--green)">OK</div>
+          </div>
+          <div class="mock-check">
+            <div class="mock-check-dot" style="background:var(--red)"></div>
+            <div class="mock-check-text">Imitação de marca (paypal)</div>
+            <div class="mock-check-badge" style="background:var(--red-soft);color:var(--red)">FAIL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-text">
+        <div class="step-num">3</div>
+        <div class="step-title">Receba o veredito final</div>
+        <div class="step-desc">
+          Com base nos critérios verificados, a ferramenta calcula um score de risco de 0 a 100
+          e emite um veredito claro: Segura, Baixo Risco, Moderado, Alto Risco ou Perigo.
+        </div>
+        <div class="step-bullets">
+          <div class="step-bullet"><div class="step-bullet-dot"></div>5 níveis de ameaça</div>
+          <div class="step-bullet"><div class="step-bullet-dot"></div>Explicação do resultado</div>
+          <div class="step-bullet"><div class="step-bullet-dot"></div>Histórico de scans da sessão</div>
+        </div>
+      </div>
+      <div class="step-visual">
+        <div class="mock-verdict">
+          <div class="mock-verdict-bar" style="background:var(--red)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div style="background:var(--red-soft);color:var(--red);font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;letter-spacing:1px">PERIGO</div>
+            <div style="font-size:28px;font-weight:800;color:var(--red);letter-spacing:-1px">75</div>
+          </div>
+          <div class="mock-verdict-title">Esta URL é perigosa</div>
+          <div class="mock-verdict-desc">Fortes indícios de phishing. Não acesse este link.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-inner">
+    <div class="section-badge" style="display:block;text-align:center">Recursos</div>
+    <h2 class="section-title" style="text-align:center">Tecnologia de <span>segurança real</span></h2>
+    <p class="section-sub">Cada verificação é baseada em técnicas usadas por profissionais de segurança.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-title">Detecção de Phishing</div>
+        <div class="feature-desc">Verifica palavras-chave como login, verify e secure — termos usados para criar urgência falsa em ataques reais.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-title">Análise de Domínio</div>
+        <div class="feature-desc">Detecta IPs no lugar de domínios, subdomínios excessivos e TLDs suspeitos como .tk, .ml e .xyz.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <div class="feature-title">Encurtadores de URL</div>
+        <div class="feature-desc">Identifica serviços como bit.ly e tinyurl que ocultam o destino real — frequentemente usados em phishing.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏢</div>
+        <div class="feature-title">Imitação de Marcas</div>
+        <div class="feature-desc">Detecta domínios que tentam imitar PayPal, Apple, Google, Amazon e outras marcas conhecidas.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Score Ponderado</div>
+        <div class="feature-desc">Sistema de pontuação 0–100 onde cada critério tem peso proporcional ao risco que representa.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">100% Privado</div>
+        <div class="feature-desc">Toda análise é feita localmente no seu browser. Sua URL nunca é enviada a servidores externos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2 class="cta-title">Pronto para verificar<br><span>seu próximo link?</span></h2>
+    <p class="cta-sub">Cole qualquer URL e descubra em segundos se ela é segura.</p>
+    <div class="cta-input-wrap">
+      <input type="text" placeholder="Cole a URL aqui..." id="ctaInput"
+        autocomplete="off" spellcheck="false"/>
+      <button class="cta-btn" onclick="ctaScan()">Analisar agora</button>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="how-section">
+  <div class="how-inner">
+    <div class="section-badge" style="display:block;text-align:center">Conceitos técnicos</div>
+    <h2 class="section-title" style="text-align:center;margin-bottom:4px">Como <span>funciona</span></h2>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-card-title">Parsing de URL</div>
+        <div class="how-card-body">URL desmontada com <code>new URL()</code>. Extraímos protocolo, domínio, subdomínios, caminho e parâmetros — cada parte analisada separadamente.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-card-title">Detecção por padrões</div>
+        <div class="how-card-body">Palavras como <code>login</code>, <code>verify</code> e <code>secure</code> são verificadas via lista baseada em campanhas reais de phishing documentadas.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-card-title">Score Ponderado</div>
+        <div class="how-card-body">Cada verificação tem peso diferente. IP no domínio = 30pts, imitação de marca = 25pts, falta de HTTPS = 20pts. Total define o nível de ameaça.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">04</div>
+        <div class="how-card-title">Análise de TLD</div>
+        <div class="how-card-body">Extensões como <code>.tk</code>, <code>.ml</code> e <code>.xyz</code> são gratuitas e frequentemente abusadas por atacantes em campanhas maliciosas.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">05</div>
+        <div class="how-card-title">Processamento local</div>
+        <div class="how-card-body">Toda análise roda no seu browser via JavaScript puro. Nenhum dado é enviado a servidores — sua privacidade está totalmente protegida.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">06</div>
+        <div class="how-card-title">Limitações</div>
+        <div class="how-card-body">Análise estática. Em produção real integraria <code>Google Safe Browsing</code> e <code>VirusTotal</code> para verificação contra listas negras atualizadas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <div class="foot-logo">
+        <svg viewBox="0 0 18 20" fill="none" width="16" height="16">
+          <path d="M9 1L17 4.5V10.5C17 14.5 13.5 18 9 19C4.5 18 1 14.5 1 10.5V4.5L9 1Z"
+                fill="none" stroke="white" stroke-width="1.5"/>
+          <circle cx="9" cy="9" r="2.5" stroke="white" stroke-width="1.3"/>
+          <line x1="11.5" y1="9" x2="15" y2="9" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="foot-name">Link<span>Sentinel</span></div>
+    </div>
+    <div class="foot-copy">© 2025 NucleoCyber · by Lucas Augusto Leal Sales</div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   LINKSENTINEL — by NucleoCyber · Lucas Augusto Sales
+═══════════════════════════════════════════════════ */
+
+const PHISHING_WORDS = ['login','signin','sign-in','account','secure','security','verify','verification','update','confirm','password','passwd','banking','paypal','apple','google','microsoft','amazon','netflix','instagram','facebook','support','helpdesk','suspended','limited','urgent','alert','warning','invoice','payment','billing','recover','reset','validate'];
+const SHORTENERS = ['bit.ly','tinyurl.com','t.co','goo.gl','ow.ly','short.link','tiny.cc','is.gd','buff.ly','adf.ly','bc.vc','cutt.ly','rebrand.ly','zws.im','v.gd','x.co','shorte.st'];
+const RISKY_TLDS = ['.tk','.ml','.ga','.cf','.gq','.xyz','.top','.click','.link','.work','.party','.download','.loan','.win','.bid','.stream','.gdn','.racing','.review','.trade'];
+const BRANDS = ['paypal','apple','google','microsoft','amazon','netflix','facebook','instagram','twitter','linkedin','dropbox','spotify','uber','airbnb','bankofamerica','chase','wellsfargo'];
+
+let history = [];
+const $ = id => document.getElementById(id);
+
+const LEVELS = {
+  safe:   { color:'#16a34a', bg:'#f0fdf4', chipBg:'#dcfce7', label:'SEGURA'       },
+  warn:   { color:'#d97706', bg:'#fffbeb', chipBg:'#fef3c7', label:'RISCO'         },
+  danger: { color:'#dc2626', bg:'#fff1f1', chipBg:'#fee2e2', label:'PERIGO'        },
+};
+
+async function scanURL() {
+  const raw = $('urlInput').value.trim();
+  if (!raw) { $('urlInput').focus(); return; }
+  const url = raw.startsWith('http') ? raw : 'https://' + raw;
+  $('scanBtn').disabled = true;
+  $('scanBtn').textContent = 'Analisando...';
+  await runProgress();
+  const result = analyze(url, raw);
+  render(result);
+  addHistory(result);
+  $('scanBtn').disabled = false;
+  $('scanBtn').textContent = 'Analisar';
+  // Scroll suave até os resultados
+  $('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function ctaScan() {
+  const val = $('ctaInput').value.trim();
+  if (!val) return;
+  $('urlInput').value = val;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => scanURL(), 400);
+}
+
+async function runProgress() {
+  const steps = [
+    { text:'Validando estrutura...', pct:20 },
+    { text:'Analisando domínio...', pct:45 },
+    { text:'Verificando phishing...', pct:68 },
+    { text:'Calculando score...', pct:88 },
+    { text:'Concluído.', pct:100 },
+  ];
+  $('progressWrap').style.display = 'block';
+  for (const s of steps) {
+    $('progressText').textContent = s.text;
+    $('progressPct').textContent  = s.pct + '%';
+    $('progressFill').style.width = s.pct + '%';
+    await pause(150);
+  }
+  await pause(100);
+  $('progressWrap').style.display = 'none';
+  $('progressFill').style.width = '0%';
+}
+
+function pause(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function analyze(url, raw) {
+  let parsed, invalid = false;
+  try { parsed = new URL(url); } catch { invalid = true; }
+
+  if (invalid) {
+    return { raw, valid:false, score:100, level:'danger', label:'INVÁLIDA',
+      summary:'URL malformada. Verifique e tente novamente.',
+      checks:[], stats:{score:100,length:raw.length,subdomains:0,params:0} };
+  }
+
+  const protocol  = parsed.protocol;
+  const hostname  = parsed.hostname;
+  const search    = parsed.search;
+  const fullUrl   = parsed.href;
+  const tld       = '.' + hostname.split('.').pop();
+  const subdomains = Math.max(0, hostname.split('.').length - 2);
+  const params    = search ? search.slice(1).split('&').filter(Boolean).length : 0;
+  const urlLow    = fullUrl.toLowerCase();
+
+  const checks = [];
+  let score = 0;
+
+  const isHTTPS = protocol === 'https:';
+  if (!isHTTPS) score += 20;
+  checks.push({ type:isHTTPS?'pass':'fail', name:'Protocolo HTTPS',
+    desc: isHTTPS ? 'Conexão criptografada — dados protegidos em trânsito.' : 'HTTP não criptografa dados — vulnerável a interceptação.',
+    detail: isHTTPS ? null : 'Nunca insira senhas ou dados em sites HTTP.', dc:'bad' });
+
+  const isIP = /^(\d{1,3}\.){3}\d{1,3}$/.test(hostname);
+  if (isIP) score += 30;
+  checks.push({ type:isIP?'fail':'pass', name:'Endereço IP no domínio',
+    desc: isIP ? 'URL usa IP diretamente — padrão muito comum em ataques.' : 'Domínio registrado normalmente.',
+    detail: isIP ? `IP detectado: ${hostname}` : null, dc:'bad' });
+
+  const found = PHISHING_WORDS.filter(w => urlLow.includes(w));
+  const pts3  = Math.min(25, found.length * 8);
+  if (found.length) score += pts3;
+  checks.push({ type:found.length?'warn':'pass', name:'Palavras associadas a phishing',
+    desc: found.length ? `${found.length} palavra(s) suspeita(s) detectada(s).` : 'Nenhuma palavra de phishing encontrada.',
+    detail: found.length ? `Encontradas: ${found.slice(0,4).join(', ')}` : null, dc:'warn' });
+
+  const isShort = SHORTENERS.some(s => hostname.includes(s));
+  if (isShort) score += 15;
+  checks.push({ type:isShort?'warn':'pass', name:'Encurtador de URL',
+    desc: isShort ? 'Encurtador detectado — destino real oculto.' : 'URL aponta diretamente para o destino.',
+    detail: isShort ? 'Verifique o destino final antes de acessar.' : null, dc:'warn' });
+
+  const tooMany = subdomains >= 3;
+  if (tooMany) score += 15;
+  checks.push({ type:tooMany?'warn':'pass', name:'Quantidade de subdomínios',
+    desc: tooMany ? `${subdomains} subdomínios — padrão suspeito.` : `${subdomains} subdomínio(s) — estrutura normal.`,
+    detail: tooMany ? `Hostname: ${hostname}` : null, dc:'warn' });
+
+  const badTLD = RISKY_TLDS.some(t => hostname.endsWith(t));
+  if (badTLD) score += 15;
+  checks.push({ type:badTLD?'warn':'pass', name:'Extensão de domínio (TLD)',
+    desc: badTLD ? `"${tld}" é frequentemente usado em campanhas maliciosas.` : `"${tld}" é uma extensão comum.`,
+    detail: badTLD ? 'TLDs gratuitos são frequentemente abusados por atacantes.' : null, dc:'warn' });
+
+  const tooLong = fullUrl.length > 100;
+  if (tooLong) score += 10;
+  checks.push({ type:tooLong?'warn':'pass', name:'Comprimento da URL',
+    desc: tooLong ? `${fullUrl.length} caracteres — pode esconder o domínio real.` : `${fullUrl.length} caracteres — comprimento normal.`,
+    detail: null, dc:'warn' });
+
+  const brand = BRANDS.find(b => hostname.includes(b) && !hostname.endsWith(b+'.com'));
+  if (brand) score += 25;
+  checks.push({ type:brand?'fail':'pass', name:'Imitação de marca',
+    desc: brand ? `Domínio pode estar imitando "${brand}".` : 'Nenhuma imitação de marca detectada.',
+    detail: brand ? 'Confirme que está no site oficial da empresa.' : null, dc:'bad' });
+
+  score = Math.min(100, score);
+
+  let level, label, summary;
+  if      (score===0)  { level='safe';   label='SEGURA';         summary='Nenhum indicador de ameaça detectado. Verifique o conteúdo ao acessar.'; }
+  else if (score<=20)  { level='safe';   label='BAIXO RISCO';    summary='Poucos indicadores suspeitos. Acesse com atenção e não insira dados pessoais sem verificar.'; }
+  else if (score<=45)  { level='warn';   label='RISCO MODERADO'; summary='Padrões associados a phishing detectados. Recomendamos cautela antes de acessar.'; }
+  else if (score<=70)  { level='warn';   label='ALTO RISCO';     summary='Múltiplos indicadores de ameaça. Características comuns em ataques de phishing. Evite acessar.'; }
+  else                 { level='danger'; label='PERIGO';         summary='Score crítico. Fortes indícios de phishing ou ataque. NÃO ACESSE este link.'; }
+
+  return { raw, valid:true, score, level, label, summary, checks,
+    stats:{score, length:fullUrl.length, subdomains, params} };
+}
+
+function render(result) {
+  const lv = LEVELS[result.level];
+
+  $('resultsSection').style.display = 'block';
+
+  // Stats
+  $('sScore').textContent  = result.valid ? result.stats.score : '!';
+  $('sScore').style.color  = lv.color;
+  $('sLen').textContent    = result.valid ? result.stats.length : '—';
+  $('sSub').textContent    = result.valid ? result.stats.subdomains : '—';
+  $('sParams').textContent = result.valid ? result.stats.params : '—';
+
+  // Veredito
+  $('verdictBar').style.background = lv.color;
+  $('verdictChip').textContent = result.label;
+  $('verdictChip').style.cssText = `background:${lv.chipBg};color:${lv.color};border:1px solid ${lv.color}33;border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:0.5px`;
+  $('verdictTitle').textContent   = result.label === 'SEGURA' ? 'URL aparentemente segura' :
+                                    result.label === 'BAIXO RISCO' ? 'URL com baixo nível de risco' :
+                                    result.label === 'RISCO MODERADO' ? 'URL com risco moderado' :
+                                    result.label === 'ALTO RISCO' ? 'URL com alto nível de risco' : 'URL perigosa detectada';
+  $('verdictUrl').textContent     = result.raw;
+  $('verdictSummary').textContent = result.summary;
+  $('scoreNum').textContent       = result.valid ? result.score : '!';
+  $('scoreNum').style.color       = lv.color;
+  $('verdictScoreWrap').style.borderColor = lv.color;
+
+  // Checks
+  $('checksList').innerHTML = result.checks.map(ch => `
+    <div class="check-row">
+      <div class="check-icon ${ch.type}">${ch.type==='pass'?'✓':ch.type==='fail'?'✕':'!'}</div>
+      <div class="check-content">
+        <div class="check-name">${ch.name}</div>
+        <div class="check-desc">${ch.desc}</div>
+        ${ch.detail ? `<div class="check-detail ${ch.dc}">${ch.detail}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function addHistory(result) {
+  history.unshift({
+    url:result.raw, label:result.label, level:result.level,
+    time:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})
+  });
+  if (history.length > 8) history.pop();
+  renderHistory();
+}
+
+function renderHistory() {
+  const card = $('historyCard');
+  if (!history.length) { card.style.display='none'; return; }
+  card.style.display = 'block';
+  $('histTitle').textContent = `Scans recentes (${history.length})`;
+  $('histList').innerHTML = history.map((e,i) => `
+    <div class="hist-row" onclick="reloadHistory(${i})">
+      <div class="hist-indicator" style="background:${LEVELS[e.level].color}"></div>
+      <div class="hist-url">${e.url}</div>
+      <div class="hist-chip" style="background:${LEVELS[e.level].chipBg};color:${LEVELS[e.level].color}">${e.label}</div>
+      <div class="hist-time">${e.time}</div>
+      <button class="hist-rm" onclick="removeHistory(${i},event)">✕</button>
+    </div>
+  `).join('');
+}
+
+function reloadHistory(i) {
+  if (!history[i]) return;
+  $('urlInput').value = history[i].url;
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(() => scanURL(), 300);
+}
+
+function removeHistory(i, e) {
+  e.stopPropagation();
+  history.splice(i,1);
+  renderHistory();
+}
+
+$('urlInput').addEventListener('keydown', e => { if(e.key==='Enter') scanURL(); });
+$('ctaInput').addEventListener('keydown', e => { if(e.key==='Enter') ctaScan(); });
+</script>
+</body>
+</html>
