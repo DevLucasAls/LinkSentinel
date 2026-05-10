@@ -11,7 +11,7 @@
 
 ## 🌐 Demo ao vivo
 
-**[→ DevLucasAls.github.io/nucleocyber-linksentinel](https://DevLucasAls.github.io/nucleocyber-linksentinel)**
+**[→ DevLucasAls.github.io/linksentinel](https://DevLucasAls.github.io/linksentinel)**
 
 ---
 
